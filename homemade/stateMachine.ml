@@ -146,7 +146,7 @@ let bin_machine = make_machine state_list state_init state_end;;
 
 
 machine_init bin_machine;;
-run_machine bin_machine "101010";; (* o.k.! *)
+run_machine bin_machine "101010";; (* true *)
 
 machine_init bin_machine;;
-run_machine bin_machine "hello";; (* Not_Found exception for now. *)
+run_machine bin_machine "hello";; (* false *)
