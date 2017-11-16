@@ -1,5 +1,4 @@
 
-
 type token == char;; (* token : text atom == letter *)
 
 type stateName == string;;
@@ -76,6 +75,15 @@ let getTransList (state:state) =
 ;;
 
 
+(* isBlankChar: char -> bool
+   isBlankChar c return true if c is blank character ie ` `, `\n` or `\t`.
+ *)
+let isBlankChar c =
+  c=` ` || c=`\n` || c=`\t`
+;;
+
+
+
 (* step: stateMachine -> token -> bool
    step m c process a step in the state machine.
    Return true if machine stops, false otherwise.
@@ -91,30 +99,36 @@ let step (m:stateMachine) (c:token) =
   | Not_found -> true (* Oops!: we're on a state with no exit for this token. This can be an error or not(end state) *)
 ;;
 
-(* run_machine: stateMachine -> string -> unit
+(* run_machine: stateMachine -> string -> bool
    Execute the machine consecutively on each character of the string.
+   Return true if execution was successful, false otherwise.
  *)
 let rec run_machine (m:stateMachine) s =
-  let i = ref 0
-  and l = string_length s in
+  let l = string_length s in
 
-  let rec parse_aux () =
-    if( !i != l )
+  let rec parse_aux i =
+    if( i < l )
     then(
-      let token = ((nth_char s !i): token) in (* get actual analyzed char *)
+      let token = ((nth_char s i): token) in (* get actual analyzed char *)
       let err = step m token in (* process a step forward *)
       if( not err )
       then(
-	i := !i + 1;
-	parse_aux ()
+	(* Machine continues. *)
+	parse_aux (i+1)
       )
       else(
-      (* here do err stuff: are we on an end state etc.? if not:error *)
+	(* Machine stopped. Are we on an end point? *)
+	if( mem m.act m.F )
+	then( true )
+	else( false )
       )
+    )
+    else(
+      true (* true for empty. *)
     )
   in
 
-  parse_aux ()
+  parse_aux 0
 ;;
 
 
@@ -135,4 +149,4 @@ machine_init bin_machine;;
 run_machine bin_machine "101010";; (* o.k.! *)
 
 machine_init bin_machine;;
-run_machine bin_machine "hello";; (* wrong! *)
+run_machine bin_machine "hello";; (* Not_Found exception for now. *)
