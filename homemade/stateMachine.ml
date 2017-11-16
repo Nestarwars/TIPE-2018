@@ -135,4 +135,4 @@ machine_init bin_machine;;
 run_machine bin_machine "101010";; (* o.k.! *)
 
 machine_init bin_machine;;
-run_machine bin_machine "hello";; (* Not_Found exception for now. *)
+run_machine bin_machine "hello";; (* wrong! *)
