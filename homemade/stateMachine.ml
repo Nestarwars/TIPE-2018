@@ -1,8 +1,8 @@
 
-type atom == char;; (* token : text atom == letter *)
+type atom == char;; (* text atom == letter *)
 
 type stateName == string;;
-type trans == atom*stateName;; (* Transition: "this token leads to this state". *)
+type trans == atom*stateName;; (* Transition: "this atom leads to this state". *)
 
 type state == stateName*(trans list);; (* Basically a graph node. *)
 
@@ -48,14 +48,14 @@ let machine_init m =
 
 
 
-(* make_trans: token -> stateName -> trans
-   Short for making a transition from token & state name.
+(* make_trans: atom -> stateName -> trans
+   Short for making a transition from atom & state name.
  *)
 let make_trans at sname =
   ( (at,sname) : trans )
 ;;
 
-(* make_transList: token list -> stateName list -> trans list
+(* make_transList: atom list -> stateName list -> trans list
    make_transList [t0 ... tn] [n0 ... nn] == [make_trans t0 n0 ... make_trans tn nn].
  *)
 let make_transList (ats: atom list) (snames: stateName list) =
@@ -70,7 +70,7 @@ let rec make_transList_oneNode (ats: atom list) (sname: stateName) =
     ats
   with
   | [] -> []
-  | at::r -> (make_trans at sname)::make_transList_oneNode r sname
+  | at::r -> (make_trans at sname) :: make_transList_oneNode r sname
 ;;
 
 (* merge_transLists: trans list -> trans list -> trans list
@@ -105,7 +105,7 @@ let isBlankChar ch =
 
 
 
-(* step: stateMachine -> token -> bool
+(* step: stateMachine -> atom -> bool
    step m c process a step in the state machine.
    Return true if machine stops, false otherwise.
  *)
@@ -136,10 +136,11 @@ let rec run_machine (m:stateMachine) s =
     then(
       let at = ((nth_char s i): atom) in (* get actual analyzed char *)
       let err = step m at in (* process a step forward *)
+      
+      parsed_expr := !parsed_expr ^ (string_of_char at);
       if( not err )
       then(
 	(* Machine continues. *)
-	parsed_expr := !parsed_expr ^ (string_of_char at);
 	parse_aux (i+1)
       )
       else(
