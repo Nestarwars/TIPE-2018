@@ -1,8 +1,8 @@
 
-type token == char;; (* token : text atom == letter *)
+type atom == char;; (* token : text atom == letter *)
 
 type stateName == string;;
-type trans == token*stateName;; (* Transition: "this token leads to this state". *)
+type trans == atom*stateName;; (* Transition: "this token leads to this state". *)
 
 type state == stateName*(trans list);; (* Basically a graph node. *)
 
@@ -46,19 +46,40 @@ let machine_init m =
 ;;
 
 
+
+
 (* make_trans: token -> stateName -> trans
    Short for making a transition from token & state name.
  *)
-let make_trans tk sname =
-  ( (tk,sname) : trans )
+let make_trans at sname =
+  ( (at,sname) : trans )
 ;;
 
 (* make_transList: token list -> stateName list -> trans list
    make_transList [t0 ... tn] [n0 ... nn] == [make_trans t0 n0 ... make_trans tn nn].
  *)
-let rec make_transList (tks: token list) (snames: stateName list) =
-  map2 make_trans tks snames
+let make_transList (ats: atom list) (snames: stateName list) =
+  map2 make_trans ats snames
 ;;
+
+(* make_transList_oneNode: atom list -> stateName
+   Transition from several atoms to unique state.
+ *)
+let rec make_transList_oneNode (ats: atom list) (sname: stateName) =
+  match
+    ats
+  with
+  | [] -> []
+  | at::r -> (make_trans at sname)::make_transList_oneNode r sname
+;;
+
+(* merge_transLists: trans list -> trans list -> trans list
+ *)
+let rec merge_transLists (l1: trans list) (l2: trans list) =
+  union l1 l2
+;;
+
+
 
 (* make_state: stateName -> trans list -> state
    Makes a state (node) with the given name & the given transition list.
@@ -78,8 +99,8 @@ let getTransList (state:state) =
 (* isBlankChar: char -> bool
    isBlankChar c return true if c is blank character ie ` `, `\n` or `\t`.
  *)
-let isBlankChar c =
-  c=` ` || c=`\n` || c=`\t`
+let isBlankChar ch =
+  ch=` ` || ch=`\n` || ch=`\t`
 ;;
 
 
@@ -88,10 +109,10 @@ let isBlankChar c =
    step m c process a step in the state machine.
    Return true if machine stops, false otherwise.
  *)
-let step (m:stateMachine) (c:token) =
+let step (m:stateMachine) (at:atom) =
   let trans = getTransList m.act in
   try
-    let newName = assoc c trans in
+    let newName = assoc at trans in
     let newTrans = assoc newName m.Q in
     m.act <- newName,newTrans;
     false
@@ -99,37 +120,61 @@ let step (m:stateMachine) (c:token) =
   | Not_found -> true (* Oops!: we're on a state with no exit for this token. This can be an error or not(end state) *)
 ;;
 
-(* run_machine: stateMachine -> string -> bool
+(* Note:
+   je sais pas trop du coup je pars là du principe que si l'exec s'arrête (cause:caractère illégal) sur un noeud final, c'est bon.
+ *)
+(* run_machine: stateMachine -> string -> bool*string
    Execute the machine consecutively on each character of the string.
-   Return true if execution was successful, false otherwise.
+   Return true if execution was successful, false otherwise, coupled with the parsed word in every case.
  *)
 let rec run_machine (m:stateMachine) s =
   let l = string_length s in
+  let parsed_expr = ref "" in
 
   let rec parse_aux i =
     if( i < l )
     then(
-      let token = ((nth_char s i): token) in (* get actual analyzed char *)
-      let err = step m token in (* process a step forward *)
+      let at = ((nth_char s i): atom) in (* get actual analyzed char *)
+      let err = step m at in (* process a step forward *)
       if( not err )
       then(
 	(* Machine continues. *)
+	parsed_expr := !parsed_expr ^ (string_of_char at);
 	parse_aux (i+1)
       )
       else(
 	(* Machine stopped. Are we on an end point? *)
 	if( mem m.act m.F )
-	then( true )
-	else( false )
+	then( false,!parsed_expr )
+	else( false,!parsed_expr )
       )
     )
     else(
-      true (* true for empty. *)
+      true,!parsed_expr (* true for empty. *)
     )
   in
 
   parse_aux 0
 ;;
+
+
+
+
+
+let alphabet_machine alphabet =
+
+  let trans_letter = make_transList_oneNode alphabet "state_letter" in
+
+  let state_init = make_state "epsilon" trans_letter in
+  let state_letter = make_state "state_letter" trans_letter in
+
+  let state_list = [state_letter] in
+
+  let alpha_machine = make_machine state_list state_init state_list in
+  alpha_machine
+;;
+
+
 
 
 (* Tests *)
