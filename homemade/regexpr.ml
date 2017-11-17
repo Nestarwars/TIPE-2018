@@ -46,19 +46,3 @@ let rec make_regexpr s =
   ()
 ;;
 
-
-let alphabet_machine s alphabet blanks =
-
-  let trans_letter = make_transList_oneNode alphabet "state_letter"
-  and trans_blank  = make_transList_oneNode blanks   "state_blank"
-  and trans_list = merge_transLists trans_letter trans_blank in
-
-  let state_init = make_state "epsilon" trans_list
-  and state_letter = make_state "state_letter" trans_list
-  and state_blank  = make_state "state_blank"  trans_list in
-
-  let state_list = [state_letter;state_blank] in
-
-  let alpha_machine = make_machine state_list state_init state_list in
-  alpha_machine
-;;
