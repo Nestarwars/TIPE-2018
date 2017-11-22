@@ -254,7 +254,7 @@ let branch_machine m1 m2 = ()
 
 
 (* Tests *)
-
+(*
 (* Machine states *)
 let state_init = make_state "epsilon" (make_transList [`0`;`1`] ["q0";"q1"]);;
 let state_0    = make_state "q0"      (make_transList [`0`;`1`] ["q0";"q1"]);;
@@ -274,3 +274,9 @@ run_machine bin_machine "101010";; (* true *)
 
 machine_init bin_machine;;
 run_machine bin_machine "hello";; (* false *)
+*)
+
+let is_bin s =
+	let bin = alphabet_machine [`0`;`1`] false in
+	run_machine bin s
+;;
