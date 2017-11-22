@@ -1,20 +1,20 @@
 (**************************************************************************)
-(*                       TIPE 2018 - Compilation                          *)
+(*                        TIPE 2018 - Compiling                           *)
 (*               Kineider    Bourret-Mathieu    Laborier                  *)
 (*                                                                        *)
-(*                          ANALYSE LEXICALE                              *)
+(*                          LEXICAL ANALYSIS                              *)
 (*                                                                        *)
 (*                  This file is under WTFPL License                      *)
 (**************************************************************************)
 
 
-(* type des lexèmes reconnus, ici on se limite à l'arithmétique basique *)
+(* the recognized lexems *)
 type lexeme =
   | PLUS
-  | MOINS
-  | FOIS
+  | MINUS
+  | TIMES
   | DIV
-  | eof
+  | EOF
   | NUM of int
   | VAR of string
 ;;
