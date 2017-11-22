@@ -1,10 +1,10 @@
 
 
-#open "homemade_lexer";;
+#open "homemade_lexer";; (* change to true name *)
 
 type 'a btree =
   | Empty
-  | Node of 'a btree * 'a * 'a btree
+  | N of 'a btree * 'a * 'a btree
 ;;
 
 type lexTree == lexeme btree ;;
