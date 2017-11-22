@@ -21,5 +21,5 @@ type lexeme =
 
 type lexbuf = lexeme list ;;
 
-(* analyse_lex exécute l'analyse lexicale de la chaine en entrée, et la rend dans un lexbuf *)
+(* analyse_lex executes the lexical analysis and returns a lexbuf *)
 value analyse_lex : string -> lexbuf ;;
