@@ -21,5 +21,5 @@ type lexeme =
 
 type lexbuf = lexeme list ;;
 
-(* analyse_lex executes the lexical analysis and returns a lexbuf *)
-value analyse_lex : string -> lexbuf ;;
+(* lexing executes the lexical analysis and returns a lexbuf *)
+value lexing : string -> lexbuf ;;
