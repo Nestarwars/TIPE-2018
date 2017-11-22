@@ -6,7 +6,7 @@ let split_indexes s schar =
   let slen = string_length s in
 
   let rec loop indexes i =
-    if( i = slen-1 )
+    if( i = slen-1 ) (* End of string *)
     then( indexes )
     else(
       let c = nth_char s i in
