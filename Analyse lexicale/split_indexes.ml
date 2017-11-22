@@ -1,8 +1,4 @@
 
-#open "stateMachine";;
-#open "homemade_parsing";;
-
-
 (*  *)
 let split_indexes s schar =
   let slen = string_length s in
