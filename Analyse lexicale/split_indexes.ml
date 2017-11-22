@@ -1,5 +1,7 @@
 
-(*  *)
+(* split_indexes -> string -> char list
+   split_indexes s cl returnes a list of the position of any element of cl in s.
+*)
 let split_indexes s schar =
   let slen = string_length s in
 
