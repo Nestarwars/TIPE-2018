@@ -280,3 +280,7 @@ let is_bin s =
 	let bin = alphabet_machine [`0`;`1`] false in
 	run_machine bin s
 ;;
+
+let is_nat s =
+	run_machine (natural_machine ()) s
+;;
