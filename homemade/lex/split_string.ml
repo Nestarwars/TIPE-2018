@@ -62,8 +62,6 @@ let split_string str schars ochars =
     )
   in
 
-  if( str="" )
-  then( [] )
-  else( split_aux str 0 )
+  split_aux str 0
 ;;
 
