@@ -1,4 +1,7 @@
 
+(* C'est trop sale j'ai honte NE PAS UTITLISER c'est super bancal.
+ *)
+
 type atom == char;; (* text atom == letter *)
 
 type stateName == string;;
