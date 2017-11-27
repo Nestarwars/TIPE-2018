@@ -38,20 +38,21 @@ let split_string str schars ochars =
       let cinsch,cinoch = (mem c schars),(mem c ochars) in
 
       if( cinsch || cinoch )
-      then( let okstr  = sub_string s 0 i in
-	    let remstr = sub_string s (i+1) (string_length s-i-1) in
-	    if( cinsch )
-	    (* if okstr="" don't cons it: [... ; "" ; ...] is BAD *)
-	    then(
-	      if( okstr<>"" )
-	      then(okstr::(string_of_char c)::(split_aux remstr 0) )
-	      else( (string_of_char c)::(split_aux remstr 0) )
-	    )
-	    else(
-	      if( okstr<>"" )
-	      then( okstr::(split_aux remstr 0) )
-	      else( (split_aux remstr 0) )
-	    )
+      then(
+      	let okstr  = sub_string s 0 i in (* The word to take *)
+	let remstr = sub_string s (i+1) (string_length s-i-1) in (* the remaining of the program *)
+	if( cinsch )
+	(* if okstr="" don't cons it: [... ; "" ; ...] is BAD *)
+	then(
+	  if( okstr<>"" )
+	  then( okstr::(string_of_char c)::(split_aux remstr 0) )
+	  else( (string_of_char c)::(split_aux remstr 0) )
+	)
+	else(
+	  if( okstr<>"" )
+	  then( okstr::(split_aux remstr 0) )
+	  else( (split_aux remstr 0) )
+	)
       )
       else if i>=(string_length s)-1
       then [s] (* reached end of word. *)
