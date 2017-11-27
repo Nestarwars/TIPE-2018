@@ -21,6 +21,8 @@ let ochars = [` `;`\t`;`\n`];; (* blanks to skip *)
 (* split_string: string -> char list -> char list -> string list
    Splits a string according to a list of split-chars and a list of split-omit-chars:
    schars characters are made a bubble between the left & right string while ochars are only a mark of slice and are then discarded.
+   schar:'+' -> "a+b" -> "a";"+";"b"
+   ochar:' ' -> "a b" -> "a";"b"
  *)
 let split_string str schars ochars =
   let slen = string_length str in
