@@ -39,8 +39,8 @@ let split_string str schars ochars =
 
       if( cinsch || cinoch )
       then(
-      	let okstr  = sub_string s 0 i in (* The word to take *)
-	let remstr = sub_string s (i+1) (string_length s-i-1) in (* the remaining of the program *)
+      	let okstr  = sub_string s 0 i in (* The word to keep *)
+	let remstr = sub_string s (i+1) (string_length s-i-1) in (* the remainder of the program *)
 	if( cinsch )
 	(* if okstr="" don't cons it: [... ; "" ; ...] is BAD *)
 	then(
