@@ -21,6 +21,7 @@ let charlist_of_string s =
 ;;
 
 
+(* Common schars/ochars *)
 let schars = charlist_of_string "+-*/()";; (* bubble characters *)
 let ochars = [` `;`\t`;`\n`];; (* blanks to skip *)
 
@@ -32,8 +33,8 @@ let ochars = [` `;`\t`;`\n`];; (* blanks to skip *)
    ochar:' ' -> "a b" -> "a";"b"
 
    each split_string call has at most 2 calls to sub_string which is a waste of time
-   and could be optimized but it works good with small strings.
-   split_string ("a"*^10000) [] [` `]
+   and could be optimized but it works good with small strings: try it with
+   split_string ("z"*^10000) [] (charlist_of_string "0123456789abcdefghijklmnopqrstuvwxyz");;
  *)
 let split_string str schars ochars =
   let slen = string_length str in

@@ -2,7 +2,7 @@
 (* Home made compiler
  *)
 
-#open "lexer";;  (* string -> lexbub *)
+#open "lexer";;  (* string -> lexbuf *)
 #open ???;; (* lexbuf -> lextree *)
 #open "make_code";; (* lextree -> string *)
 

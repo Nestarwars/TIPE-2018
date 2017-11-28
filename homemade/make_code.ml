@@ -1,5 +1,6 @@
 
-#open "lextree";
+#open "lexeme";;
+#open "lextree";;
 
 (* make_code: lextree -> string
    Construct and return the code described by the provided lextree.
@@ -26,10 +27,10 @@ let rec make_code (ltree:lextree) =
     ltree
   with
   | Empty -> ""
-  | Node(l,PLUS,r) -> (op "+" l r)  (* Should "OP of string" in lexeme definition? *)
-  | Node(l,MINUS,r) -> (op "-" l r) (* Node(l,OP(symbol),r) -> (op symbol l r) *)
-  | Node(l,TIMES,r) -> (op "*" l r)
-  | Node(l,DIV,r) -> (op "/" l r)
+  | Node(ls,PLUS,rs) -> (op "+" ls rs)  (* Should "OP of string" in lexeme definition? *)
+  | Node(ls,MINUS,rs) -> (op "-" ls rs) (* Node(l,OP(symbol),r) -> (op symbol l r) *)
+  | Node(ls,TIMES,rs) -> (op "*" ls rs)
+  | Node(ls,DIV,rs) -> (op "/" ls rs)
   | Node(Empty,NUM(nb),Empty) -> (num nb)
   | Node(Empty,VAR(vb),Empty) -> (var vb)
   | _ -> failwith "Error in lextree structure"
