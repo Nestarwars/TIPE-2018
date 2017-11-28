@@ -1,4 +1,11 @@
 
+(* python-like '*^' operator for strings (multiple concatenation) *)
+let rec prefix *^ str n =
+  if n=0
+  then ""
+  else( str^(str*^(n-1)) )
+;;
+
 (* charlist_of_string: string -> char list
    Build and return the list of the characters contained in s, in order of appearance.
    charlist_of_string "caml" returns [`c`;`a`;`m`;`l`].
@@ -23,6 +30,10 @@ let ochars = [` `;`\t`;`\n`];; (* blanks to skip *)
    schars characters are made a bubble between the left & right string while ochars are only a mark of slice and are then discarded.
    schar:'+' -> "a+b" -> "a";"+";"b"
    ochar:' ' -> "a b" -> "a";"b"
+
+   each split_string call has at most 2 calls to sub_string which is a waste of time
+   and could be optimized but it works good with small strings.
+   split_string ("a"*^10000) [] [` `]
  *)
 let split_string str schars ochars =
   let slen = string_length str in
@@ -65,4 +76,3 @@ let split_string str schars ochars =
 
   split_aux str 0
 ;;
-
