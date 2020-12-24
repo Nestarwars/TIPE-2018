@@ -1,3 +1,13 @@
+(**************************************************************************)
+(*                        TIPE 2018 - Compiling                           *)
+(*               Kineider    Bourret-Mathieu    Laborier                  *)
+(*                                                                        *)
+(*                          LEXICAL ANALYSIS                              *)
+(*                                                                        *)
+(*                  This file is under WTFPL License                      *)
+(**************************************************************************)
+
+(* the recognized lexems *)
 type lexeme =
   | PLUS
   | MOINS
@@ -7,11 +17,12 @@ type lexeme =
   | NUM of int
 ;;
 
+(* the list of recognized lexems *)
 type lexbuf == lexeme list
 ;;
     
-
-
+(* analyse_lex_buf takes a buffer into a list of lexems, type lexbuf,
+it read each element seperatly and flag each on with its type *)
 let analyse_lex_bis buffer =
   let rec acc buf (lexbuf : lexbuf) i =
     match nth_char buf i with
