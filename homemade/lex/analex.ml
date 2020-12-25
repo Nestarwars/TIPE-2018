@@ -21,8 +21,10 @@ type lexeme =
 type lexbuf == lexeme list
 ;;
     
-(* analyse_lex_buf takes a buffer into a list of lexems, type lexbuf,
-it read each element seperatly and flag each on with its type *)
+(* analyse_lex_buf : str list -> lexbuf
+  takes a buffer into a list of lexems, type lexbuf, 
+  it read each element seperatly and flag each on with its type 
+  *)
 let analyse_lex_bis buffer =
   let rec acc buf (lexbuf : lexbuf) i =
     match nth_char buf i with
@@ -36,12 +38,14 @@ let analyse_lex_bis buffer =
   in acc buffer [] 0
 ;;
   
-(* conc_c_str concatenates a character with a string *)
+(* conc_c_str : char -> str -> str 
+  concatenates a character with a string *)
 let cons_c_str char str = let c = string_of_char char in
 			  c^str
 ;;
 
-(* space_detect takes a string and return a list of the indexes where the spaces are *)
+(* space_detect : str -> int list
+  takes a string and return a list of the indexes where the spaces are *)
 let space_detect str =
   let rec space_aux phrase i l =
     if i < (string_length phrase)
@@ -54,7 +58,8 @@ let space_detect str =
   space_aux str 0 []
 ;;
 
-(* split_str takes a string, detects the spaces and splits on the spaces *)
+(* split_str : str -> str list
+  takes a string, detects the spaces and splits on the spaces *)
 let split str =
   let rec split_aux phrase l index =
     match index with

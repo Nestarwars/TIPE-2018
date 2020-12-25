@@ -13,7 +13,7 @@
   
   
 
-
+(* noFileErr renvoie une erreur avec un message en cas de défaut du fichier d'entree *)
 let noFileErr() =
   prerr_endline "Utilisation: stf <fichier-sortie> <fichier-entrée>";
   io__exit 1;
